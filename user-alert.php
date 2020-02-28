@@ -31,7 +31,6 @@ function UAAdminContent()
             <p>Вывод: <b><?= htmlspecialchars("<?= do_shortcode('[user_alert]') ?> или [user_alert]")?></b></p>
 
             <h2>Сообщение:</h2>
-
             <form method="post" action="options.php">
                 <?php wp_nonce_field('update-options') ?>
                 <?php wp_editor(get_option('user_alert'), 'user_alert'); ?>
@@ -61,7 +60,6 @@ function UAAdminMenu()
 }
 add_action('admin_menu', 'UAAdminMenu');
 
-
 /**
  * Получние сообщения для пользователя
  * @return string
@@ -71,7 +69,3 @@ function UAGetContent()
     return get_option('user_alert');
 }
 add_shortcode('user_alert', 'UAGetContent');
-
-
-
-
