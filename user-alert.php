@@ -1,9 +1,9 @@
 <?php
 /*
  * Plugin Name: User alert
- * Description: Возможность вывода сообщения пользователям сайта. Вывод: <?= do_shortcode('[user_alert]') ?> или [user_alert]
+ * Description: Возможность вывода сообщения пользователям сайта. Вывод: <?=do_shortcode('[user_alert]')?> или [user_alert]
  * Plugin URI: https://github.com/badman666/user-alert
- * Version: 0.0.1
+ * Version: 0.0.2
  * Author: BadMan666
 */
 
@@ -35,8 +35,8 @@ function UAAdminContent()
                 <?php wp_nonce_field('update-options') ?>
                 <?php wp_editor(get_option('user_alert'), 'user_alert'); ?>
                 <br>
-                <input type="hidden" name="action" value="update"/>
-                <input type="hidden" name="page_options" value="user_alert"/>
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" name="page_options" value="user_alert">
                 <input class="button button-primary" type="submit" name="update" value="Сохранить">
             </form>
         </div>
@@ -62,10 +62,31 @@ add_action('admin_menu', 'UAAdminMenu');
 
 /**
  * Получние сообщения для пользователя
+ * с оберткой и классом .ua-attention
  * @return string
  */
 function UAGetContent()
 {
-    return get_option('user_alert');
+    $message  = '<style>
+        .alert {
+            width: 100%;
+            padding: 10px 40px;
+            margin: 0 0 15px;
+            font-weight: 900;
+            box-shadow: 0 0 1px gray;
+        }
+        .alert:before {
+            content: "!";
+            display: inline-block;
+            margin: 0 15px 0 -20px;
+            color: red;
+            font-size: 1.5em;
+        }
+    </style>';
+    $message .= '<div class="ua-attention">';
+    $message .= get_option('user_alert');
+    $message .= '</div>';
+    
+    return $message
 }
 add_shortcode('user_alert', 'UAGetContent');
